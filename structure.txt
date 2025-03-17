@@ -1,0 +1,46 @@
+strava-im-estimator/
+├── backend/                 # Core backend logic
+│   ├── api.py               # Handles Strava API authentication & requests
+│   ├── data_parser.py       # Parses and cleans raw Strava workout data
+│   ├── models.py            # Database models (if storing user data)
+│   ├── utils.py             # Helper functions (e.g., unit conversions, logging)
+│   ├── config.py            # Configuration settings (API keys, constants)
+│   ├── __init__.py          # Marks directory as a package
+│
+├── ml/                      # AI/ML modeling & performance predictions
+│   ├── cycling_model.py     # Critical Power (CP) calculations
+│   ├── running_model.py     # VDOT modeling for running LT2
+│   ├── swimming_model.py    # CSS modeling for swimming
+│   ├── fatigue_model.py     # Fatigue & durability score modeling
+│   ├── predictor.py         # Generates race time estimates
+│   ├── __init__.py          # Marks directory as a package
+│
+├── frontend/                # UI/UX & user interaction
+│   ├── app.py               # Main web app (Flask/FastAPI or Django)
+│   ├── templates/           # HTML templates (if applicable)
+│   ├── static/              # CSS, JS, images (if applicable)
+│   ├── routes.py            # Defines front-end API endpoints
+│   ├── __init__.py          # Marks directory as a package
+│
+├── tests/                   # Unit tests
+│   ├── test_api.py          # Tests for API handling
+│   ├── test_models.py       # Tests for AI/ML models
+│   ├── test_utils.py        # Tests for utility functions
+│   ├── __init__.py          # Marks directory as a package
+│
+├── scripts/                 # Miscellaneous scripts (e.g., data ingestion, setup)
+│   ├── fetch_strava_data.py # Example script to pull data manually
+│   ├── setup_db.py          # If using a database
+│
+├── notebooks/               # Jupyter notebooks for model development
+│   ├── model_exploration.ipynb  # Prototyping AI models
+│
+├── config/                  # Configurations & environment settings
+│   ├── config.yaml          # App settings (API keys, email settings)
+│   ├── .env                 # Environment variables (DO NOT COMMIT)
+│
+├── requirements.txt         # Python dependencies
+├── setup.py                 # Installable package setup script
+├── run.py                   # Main entry point to run the app
+├── README.md                # Project documentation
+└── .gitignore               # Git ignore file
