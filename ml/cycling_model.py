@@ -130,9 +130,63 @@ def evaluate_peak_avg_wattages(df, time_windows):
     
     return results_df
 
-# Define the time windows to evaluate
-time_windows = [5, 60, 300, 600, 1200, 3600, 7200, 10800, 14400, 18000]
+# # Define the time windows to evaluate
+# time_windows = [5, 60, 300, 600, 1200, 3600, 7200, 10800, 14400, 18000]
 
-# Call the function and display results
-results_df = evaluate_peak_avg_wattages(df, time_windows)
-print(results_df)
+# # Call the function and display results
+# results_df = evaluate_peak_avg_wattages(df, time_windows)
+# print(results_df)
+
+
+import pandas as pd
+import numpy as np
+
+def cycling_normalized_power(power):
+    """
+    Calculates normalized power (np) and average power for cycling data.
+
+    Args:
+        power (list or pd.Series): A list or pandas Series of power values (watts).
+
+    Returns:
+        tuple: A tuple containing (normalized power, average power).
+               Returns (None, None) if the input is invalid or if there are insufficient data points.
+    """
+    if not isinstance(power, (list, pd.Series)):
+        return None, None
+
+    if isinstance(power, list):
+        number_series = pd.Series(power)
+    else:
+        number_series = power.copy()
+
+    number_series = number_series.dropna()
+
+    if len(number_series) < 30:
+        return None, None
+
+    window_size = 30
+    windows = number_series.rolling(window_size)
+    power_30s = windows.mean().dropna()
+
+    if len(power_30s) == 0:
+        return None, None
+
+    average_power = round(power_30s.mean(), 0)
+
+    normalized_power = round((((power_30s**4).mean())**0.25), 0)
+
+    return normalized_power, average_power
+
+# Example usage
+# power_data = [100, 120, 150, 1130, 110, 180, 200, 190, 170, 160,
+#               155, 165, 175, 185, 195, 205, 215, 225, 235, 245,
+#               240, 230, 220, 210, 200, 195, 185, 175, np.nan,165, 155,
+#               150, 160, 170, 180, 190, 2000, 2100, 220, 230, 240,100, 120, 150, 1130, 110, 180, 200, 190, 170, 160,
+#               155, 165, 175, 185, 195, 205, 215, 225, 235, 245,
+#               240, 230, 220, 210, 200, 195, 185, 175, 165, 155,
+#               150, 160, 170, 180, 190, 2000, 2100, 220, 230, 240,np.nan,np.nan]
+
+# np_result, avg_result = cycling_normalized_power(power_data)
+# print(f"Normalized power (np): {np_result}")
+# print(f"Average power: {avg_result}")
